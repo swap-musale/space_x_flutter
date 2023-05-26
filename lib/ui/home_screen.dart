@@ -14,6 +14,9 @@ class MyHomeScreen extends StatefulWidget {
 }
 
 class _MyHomeScreenState extends State<MyHomeScreen> {
+
+  var responseData = "SpaceX";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,10 +25,10 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
+      body: Center(
           child: Text(
-        'SpaceX',
-        style: TextStyle(color: Colors.black, fontSize: 20),
+        responseData,
+        style: const TextStyle(color: Colors.black, fontSize: 20),
       )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -36,16 +39,19 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
       ),
     );
   }
-}
 
-void fetchData() {
-  final request = GExampleQueryReq();
-  final client = initClient("https://spacex-production.up.railway.app/");
+  void fetchData() {
+    final request = GExampleQueryReq();
+    final client = initClient("https://spacex-production.up.railway.app/");
 
-  client.request(request).listen((response) {
-    final result = response.data?.company?.ceo;
-    if (kDebugMode) {
-      print("Company CEO Name: $result");
-    }
-  });
+    client.request(request).listen((response) {
+      final result = response.data?.company?.ceo;
+      setState(() {
+        responseData = result!;
+      });
+      if (kDebugMode) {
+        print("Company CEO Name: $result");
+      }
+    });
+  }
 }
