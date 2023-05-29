@@ -1,5 +1,7 @@
-import 'package:flutter/foundation.dart';
+import 'package:ferry_flutter/ferry_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:space_x_flutter/graphql/__generated__/ExampleQuery.data.gql.dart';
+import 'package:space_x_flutter/graphql/__generated__/ExampleQuery.var.gql.dart';
 
 import '../graphql/__generated__/ExampleQuery.req.gql.dart';
 import '../graphql/space_x_client.dart';
@@ -14,8 +16,8 @@ class MyHomeScreen extends StatefulWidget {
 }
 
 class _MyHomeScreenState extends State<MyHomeScreen> {
-
   var responseData = "SpaceX";
+  final client = initClient("https://spacex-production.up.railway.app/");
 
   @override
   Widget build(BuildContext context) {
@@ -25,33 +27,24 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-          child: Text(
-        responseData,
-        style: const TextStyle(color: Colors.black, fontSize: 20),
-      )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          fetchData();
+      body: Operation<GExampleQueryData, GExampleQueryVars>(
+        client: client,
+        operationRequest: GExampleQueryReq(),
+        builder: (context, response, error) {
+          return Scaffold(
+            body: Center(
+              child: response?.loading ?? true
+                  ? const CircularProgressIndicator()
+                  : Text(
+                      'Company CEO Name : ${response?.data?.company?.ceo ?? ""}'),
+            ),
+          );
         },
-        tooltip: 'Increment',
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
         child: const Icon(Icons.cloud),
       ),
     );
-  }
-
-  void fetchData() {
-    final request = GExampleQueryReq();
-    final client = initClient("https://spacex-production.up.railway.app/");
-
-    client.request(request).listen((response) {
-      final result = response.data?.company?.ceo;
-      setState(() {
-        responseData = result!;
-      });
-      if (kDebugMode) {
-        print("Company CEO Name: $result");
-      }
-    });
   }
 }
