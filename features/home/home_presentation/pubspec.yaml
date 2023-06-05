@@ -1,5 +1,6 @@
 name: home_presentation
 description: A new Flutter package project.
+publish_to: none
 version: 0.0.1
 homepage:
 
@@ -12,6 +13,8 @@ dependencies:
     sdk: flutter
   home_data:
     path: ../home_data
+  home_domain:
+    path: ../home_domain
   ferry_flutter: ^0.8.1
 
 dev_dependencies:

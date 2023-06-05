@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:home_data/graphql/__generated__/ExampleQuery.data.gql.dart';
 import 'package:home_data/graphql/__generated__/ExampleQuery.req.gql.dart';
 import 'package:home_data/graphql/__generated__/ExampleQuery.var.gql.dart';
-import 'package:home_data/graphql/space_x_client.dart';
+import 'package:home_data/repositories/home_repo_impl.dart';
+import 'package:home_domain/usecase/get_spacex_ceo_use_case.dart';
 
 class MyHomeScreen extends StatefulWidget {
   const MyHomeScreen({super.key, required this.title});
@@ -16,7 +17,8 @@ class MyHomeScreen extends StatefulWidget {
 
 class _MyHomeScreenState extends State<MyHomeScreen> {
   var responseData = "SpaceX";
-  final client = initClient("https://spacex-production.up.railway.app/");
+  final homeRepo = HomeRepoImpl();
+  final getSpaceXCeo = GetSpaceXCeoUseCase(homeRepo: HomeRepoImpl());
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         title: Text(widget.title),
       ),
       body: Operation<GExampleQueryData, GExampleQueryVars>(
-        client: client,
+        client: getSpaceXCeo(),
         operationRequest: GExampleQueryReq(),
         builder: (context, response, error) {
           return Scaffold(
