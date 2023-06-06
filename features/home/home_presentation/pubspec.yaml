@@ -11,10 +11,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  home_data:
-    path: ../home_data
+
   home_domain:
     path: ../home_domain
+  common:
+    path: ../../../core/common
   ferry_flutter: ^0.8.1
 
 dev_dependencies:

@@ -25,6 +25,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  common:
+    path: ../../../core/common
   home_domain:
     path: ../home_domain
 
