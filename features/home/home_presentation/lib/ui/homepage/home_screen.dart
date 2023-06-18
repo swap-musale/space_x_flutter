@@ -33,18 +33,59 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
         operationRequest: GExampleQueryReq(),
         builder: (context, response, error) {
           return Scaffold(
-            body: Center(
-              child: response?.loading ?? true
-                  ? const CircularProgressIndicator()
-                  : Text(
-                      'Company CEO Name : ${response?.data?.company?.ceo ?? ""}'),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Stack(
+                      alignment: Alignment.bottomLeft,
+                      children: [
+                        const Image(
+                          height: 180,
+                          width: double.infinity,
+                          image: AssetImage('images/falcon_1.jpg'),
+                          fit: BoxFit.fill,
+                        ),
+                        Container(
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black38,
+                                Colors.transparent,
+                              ],
+                            ),
+                          ),
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(8),
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "Missions",
+                              style: TextStyle(
+                                fontSize: 24,
+                                color: Colors.white70,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.cloud),
       ),
     );
   }
